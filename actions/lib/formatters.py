@@ -180,6 +180,12 @@ def user_to_dict(user):
     result = {'name': user.name, 'login': user.login}
     return result
 
+def event_to_dict(event):
+    if not event:
+        return None
+
+    result = {'id': event.id, 'type': event.type, 'actor': event.actor, 'repo': event.repo, 'created_at': event.created_at}
+    return result
 
 def team_to_dict(team):
     if not team:

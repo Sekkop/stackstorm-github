@@ -59,7 +59,7 @@ class GithubRepositorySensor(PollingSensor):
 
     def poll(self):
         for repository_name, repository_obj in self._repositories:
-            self._logger.debug('Processing repository "%s"' %
+            self._logger.info('Processing repository "%s"' %
                                (repository_name))
             self._process_repository(name=repository_name,
                                      repository=repository_obj)
@@ -134,7 +134,7 @@ class GithubRepositorySensor(PollingSensor):
 
     def _handle_event(self, repository, event):
         if event.type not in self.EVENT_TYPE_WHITELIST:
-            self._logger.debug('Skipping ignored event (type=%s)' % (event.type))
+            self._logger.info('Skipping ignored event (type=%s)' % (event.type))
             return
 
         self._dispatch_trigger_for_event(repository=repository, event=event)
