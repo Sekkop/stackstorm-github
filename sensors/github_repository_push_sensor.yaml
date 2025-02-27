@@ -1,0 +1,23 @@
+---
+class_name: "GithubRepositoryPushSensor"
+entry_point: "github_repository_push_sensor.py"
+description: | 
+  Sensor which monitors Github repository for "pushed_at" changes.
+  This is better than the "repository_event" trigger type because it is not impacted by the delay between the real activity and the event being generated.
+  There can be a delay of 5 minutes and up to 5 seconds between the real activity and the event being generated.
+# requires authentication because of GitHub rate limiting
+# use default with auth or increase poll interval
+enabled: true
+poll_interval: 30
+trigger_types:
+  - name: "repository_push_event"
+    description: "Trigger which indicates a new repository push action"
+    payload_schema:
+      type: "object"
+      properties:
+        full_name:
+          type: "string"
+        created_at:
+          type: "string"
+        pushed_at:
+          type: "string"

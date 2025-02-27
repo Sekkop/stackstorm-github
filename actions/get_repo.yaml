@@ -1,0 +1,31 @@
+---
+name: get_repo
+runner_type: python-script
+description: Get a user from the Github user database
+enabled: true
+entry_point: get_repo.py
+parameters:
+  user:
+    type: "string"
+    description: "The username"
+    required: true
+  repo:
+    type: "string"
+    description: "repository name"
+    required: true
+  token_user:
+    type: "string"
+    description: "OAuth token"
+    default: "{{action_context.api_user|default()}}"
+  github_type:
+    type: "string"
+    description: "The type of github installation to target, if unset will use the configured default."
+    default: ~
+  count:
+    type: "integer"
+    description: "Number of events to fetch"
+    default: 30
+  event_type_whitelist:
+    type: "array"
+    description: "List of event types to include"
+    default: ["PushEvent"]

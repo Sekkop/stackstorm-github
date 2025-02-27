@@ -82,3 +82,26 @@ repository_sensor:
       description: "Maximum number of old events to retrieve"
       required: false
       default: 30
+
+repository_push_sensor:
+  description: "Sensor specific settings, with default github type."
+  type: "object"
+  required: false
+  additionalProperties: false
+  properties:
+    repositories:
+      description: "Repositories to monitor"
+      type: "array"
+      required: true
+      items:
+        type: "object"
+        required: true
+        properties:
+          user:
+            description: "GitHub user or organization name"
+            type: "string"
+            required: true
+          name:
+            description: "Repository name"
+            type: "string"
+            required: true

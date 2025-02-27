@@ -187,6 +187,13 @@ def event_to_dict(event):
     result = {'id': event.id, 'type': event.type, 'actor': event.actor, 'repo': event.repo, 'created_at': event.created_at}
     return result
 
+def repo_to_dict(repo):
+    if not repo:
+        return None
+
+    result = {'id': repo.id, 'name': repo.name, 'full_name': repo.full_name, 'private': repo.private, 'url': repo.url, "pushed_at": repo.pushed_at}
+    return result
+
 def team_to_dict(team):
     if not team:
         return None
