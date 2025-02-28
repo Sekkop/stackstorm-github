@@ -90,8 +90,8 @@ class GithubRepositoryPushSensor(PollingSensor):
         # Common attributes
         payload = {
             'full_name': repository.full_name,
-            'pushed_at': repository.pushed_at,
-            'created_at': repository.created_at,
+            'pushed_at': repository.pushed_at.strftime(DATE_FORMAT_STRING),
+            'created_at': repository.created_at.strftime(DATE_FORMAT_STRING),
         }
 
         self._sensor_service.dispatch(trigger=trigger, payload=payload)
