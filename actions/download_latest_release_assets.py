@@ -13,6 +13,21 @@ class DownloadLatestReleaseAssetsAction(BaseGithubAction):
         results = []
         for asset in assets:
             file_path = os.path.join(path, asset.name)
+
+            # Create the directory if it doesn't exist
+            try:
+                os.makedirs(path)
+            except Exception:
+                pass
+
+            # Remove the file if it already exists
+            try:
+                os.remove(file_path)
+            except Exception:
+                pass
+
+
+
             asset.download_asset(file_path)
             results.append({'name': asset.name, 'path': file_path})
 
