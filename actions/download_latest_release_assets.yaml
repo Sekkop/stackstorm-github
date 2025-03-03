@@ -1,0 +1,15 @@
+---
+name: "download_latest_release_assets"
+runner_type: "python-script"
+description: "Download the assets from the latest release of a GitHub repository"
+enabled: true
+entry_point: "download_latest_release_assets.py"
+parameters:
+  repository:
+    type: "string"
+    description: "The full (Organization|User)/repository path"
+    required: true
+  path:
+    type: "string"
+    description: "The directory to download the assets to"
+    default: ~

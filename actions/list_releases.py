@@ -16,32 +16,24 @@ from lib.base import BaseGithubAction
 
 
 class ListReleasesAction(BaseGithubAction):
-    def run(self, api_user, repository, github_type):
+    def run(self, repository):
         results = []
-
-        enterprise = self._is_enterprise(github_type)
-
-        if api_user:
-            self.token = self._get_user_token(api_user, enterprise)
-
-        releases = self._request("GET",
-                                 "/repos/{}/releases".format(repository),
-                                 None,
-                                 self.token,
-                                 enterprise=enterprise)
+        repo = self._client.get_repo(repository)
+        releases = repo.get_releases()
 
         for release in releases:
             results.append(
-                {'author': release['author']['login'],
-                 'html_url': release['html_url'],
-                 'tag_name': release['tag_name'],
-                 'target_commitish': release['target_commitish'],
-                 'name': release['name'],
-                 'body': release['body'],
-                 'draft': release['draft'],
-                 'prerelease': release['prerelease'],
-                 'created_at': release['created_at'],
-                 'published_at': release['published_at'],
-                 'total_assets': len(release['assets'])})
+                {'author': release.author.login,
+                 'avatar_url': release.author.avatar_url,
+                 'html_url': release.html_url,
+                 'tag_name': release.tag_name,
+                 'target_commitish': release.target_commitish,
+                 'name': release.title,
+                 'body': release.body,
+                 'draft': release.draft,
+                 'prerelease': release.prerelease,
+                 'created_at': release.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                 'published_at': release.published_at.strftime('%Y-%m-%d %H:%M:%S'),
+                 'total_assets': len(release.assets)})
 
         return results

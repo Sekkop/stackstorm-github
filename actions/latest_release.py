@@ -19,36 +19,21 @@ from lib.base import BaseGithubAction
 
 
 class LatestReleaseAction(BaseGithubAction):
-    def run(self, api_user, repository, github_type):
+    def run(self, repository):
+        repo = self._client.get_repo(repository)
+        latest = repo.get_latest_release()
 
-        enterprise = self._is_enterprise(github_type)
-
-        if api_user:
-            self.token = self._get_user_token(api_user, enterprise)
-
-        release = self._request("GET",
-                                "/repos/{}/releases/latest".format(repository),
-                                None,
-                                token=self.token,
-                                enterprise=enterprise)
-
-        ts_published_at = time.mktime(
-            datetime.datetime.strptime(
-                release['published_at'],
-                "%Y-%m-%dT%H:%M:%SZ").timetuple())
-
-        results = {'author': release['author']['login'],
-                   'avatar_url': release['author']['avatar_url'],
-                   'html_url': release['html_url'],
-                   'tag_name': release['tag_name'],
-                   'target_commitish': release['target_commitish'],
-                   'name': release['name'],
-                   'body': release['body'],
-                   'draft': release['draft'],
-                   'prerelease': release['prerelease'],
-                   'created_at': release['created_at'],
-                   'published_at': release['published_at'],
-                   'ts_published_at': ts_published_at,
-                   'total_assets': len(release['assets'])}
+        results = {'author': latest.author.login,
+                   'avatar_url': latest.author.avatar_url,
+                   'html_url': latest.html_url,
+                   'tag_name': latest.tag_name,
+                   'target_commitish': latest.target_commitish,
+                   'name': latest.title,
+                   'body': latest.body,
+                   'draft': latest.draft,
+                   'prerelease': latest.prerelease,
+                   'created_at': latest.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                   'published_at': latest.published_at.strftime('%Y-%m-%d %H:%M:%S'),
+                   'total_assets': len(latest.assets)}
 
         return results
