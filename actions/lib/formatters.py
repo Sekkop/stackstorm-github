@@ -194,6 +194,22 @@ def repo_to_dict(repo):
     result = {'id': repo.id, 'name': repo.name, 'full_name': repo.full_name, 'private': repo.private, 'url': repo.url, "pushed_at": repo.pushed_at}
     return result
 
+def release_to_dict(release):
+    result = {'author': release.author.login,
+     'avatar_url': release.author.avatar_url,
+     'html_url': release.html_url,
+     'tag_name': release.tag_name,
+     'target_commitish': release.target_commitish,
+     'name': release.name,
+     'body': release.body,
+     'draft': release.draft,
+     'prerelease': release.prerelease,
+     'created_at': release.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+     'published_at': release.published_at.strftime('%Y-%m-%d %H:%M:%S'),
+     'assets': release.assets,
+     'total_assets': len(release.assets)}
+    return result
+
 def team_to_dict(team):
     if not team:
         return None

@@ -1,0 +1,68 @@
+---
+class_name: "GithubRepositoryReleaseSensor"
+entry_point: "github_repository_release_sensor.py"
+description: | 
+  Sensor which monitors Github repository for "pushed_at" changes.
+  This is better than the "repository_event" trigger type because it is not impacted by the delay between the real activity and the event being generated.
+  There can be a delay of 5 minutes and up to 5 seconds between the real activity and the event being generated.
+# requires authentication because of GitHub rate limiting
+# use default with auth or increase poll interval
+enabled: true
+poll_interval: 30
+
+#{'author': release.author.login,
+#     'avatar_url': release.author.avatar_url,
+#     'html_url': release.html_url,
+#     'tag_name': release.tag_name,
+#     'target_commitish': release.target_commitish,
+#     'name': release.name,
+#     'body': release.body,
+#     'draft': release.draft,
+#     'prerelease': release.prerelease,
+#     'created_at': release.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+#     'published_at': release.published_at.strftime('%Y-%m-%d %H:%M:%S'),
+#     'assets': release.assets,
+#     'total_assets': len(release.assets)
+
+trigger_types:
+  - name: "repository_release_sensor"
+    description: "Trigger which indicates a new repository push action"
+    payload_schema:
+      type: "object"
+      properties:
+        author:
+          type: "string"
+          description: "Author of the release"
+        avatar_url:
+            type: "string"
+            description: "Avatar URL of the author"
+        html_url:
+            type: "string"
+            description: "URL of the release"
+        tag_name:
+            type: "string"
+            description: "Tag name of the release"
+        target_commitish:
+            type: "string"
+            description: "Target commitish of the release"
+        name:
+            type: "string"
+            description: "Name of the release"
+        body:
+            type: "string"
+            description: "Body of the release"
+        draft:
+            type: "boolean"
+            description: "Draft status of the release"
+        prerelease:
+            type: "boolean"
+            description: "Prerelease status of the release"
+        created_at:
+            type: "string"
+            description: "Created at date of the release"
+        published_at:
+            type: "string"
+            description: "Published at date of the release"
+        total_assets:
+            type: "integer"
+            description: "Total assets of the release"
