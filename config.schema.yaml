@@ -105,3 +105,25 @@ repository_push_sensor:
             description: "Repository name"
             type: "string"
             required: true
+repository_release_sensor:
+  description: "Sensor specific settings, with default github type."
+  type: "object"
+  required: false
+  additionalProperties: false
+  properties:
+    repositories:
+      description: "Repositories to monitor"
+      type: "array"
+      required: true
+      items:
+        type: "object"
+        required: true
+        properties:
+          user:
+            description: "GitHub user or organization name"
+            type: "string"
+            required: true
+          name:
+            description: "Repository name"
+            type: "string"
+            required: true
