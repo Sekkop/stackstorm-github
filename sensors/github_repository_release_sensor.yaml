@@ -25,7 +25,7 @@ poll_interval: 30
 #     'total_assets': len(release.assets)
 
 trigger_types:
-  - name: "repository_release_sensor"
+  - name: "repository_release_event"
     description: "Trigger which indicates a new repository push action"
     payload_schema:
       type: "object"
