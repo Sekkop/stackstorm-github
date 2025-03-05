@@ -30,6 +30,9 @@ trigger_types:
     payload_schema:
       type: "object"
       properties:
+        repository:
+          type: "string"
+          description: "Repository name"
         author:
           type: "string"
           description: "Author of the release"

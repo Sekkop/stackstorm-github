@@ -79,8 +79,8 @@ class GithubRepositoryReleaseSensor(PollingSensor):
                 self._logger.error('GithubRepositoryReleaseSensor - Error retrieving latest release for repository "%s/%s": %s' %
                                    (repository_user, repository_name, str(e)))
                 continue
-
-            self._process_release(name=repository_name,
+            full_name = repository_user + '/' + repository_name
+            self._process_release(name=full_name,
                                      release=last_release)
 
     def _process_release(self, name, release):
@@ -99,16 +99,17 @@ class GithubRepositoryReleaseSensor(PollingSensor):
         self._logger.info(f'GithubRepositoryReleaseSensor - Comparing {release.published_at} with {last_published_at}' )
         if release.published_at == last_published_at:
             return
-        self._dispatch_trigger_for_repository(release)
+        self._dispatch_trigger_for_release(name, release)
         self._set_last_release_published_at(name, release.published_at)
 
 
 
-    def _dispatch_trigger_for_repository(self, release):
+    def _dispatch_trigger_for_release(self, name, release):
         trigger = self._trigger_ref
 
         # Common attributes
         payload = release_to_dict(release)
+        payload['repository'] = name
 
         self._sensor_service.dispatch(trigger=trigger, payload=payload)
 
